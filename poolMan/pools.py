@@ -14,3 +14,10 @@ class Pool(object):
 
     def __init__(self, hosts=None):
         self._hosts = {} if hosts is None else set(hosts)
+
+    def available(self): ### DEBUG ###
+        import paramiko
+        key = paramiko.RSAKey.from_private_key_file(path)
+        client = paramiko.SSHClient()
+        client.load_system_host_keys()
+        client.connect(username="dkw", hostname="loquat", pkey=key, port=22)
