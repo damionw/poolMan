@@ -66,7 +66,7 @@ def console():
     arguments = parser.parse_args()
 
     pool = poolMan.Pool(
-        hosts=arguments.pool_hosts,
+        hostnames=arguments.pool_hosts,
         keyfile=arguments.keyfile,
     )
 
