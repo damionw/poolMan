@@ -65,7 +65,10 @@ def console():
     register_options(parser)
     arguments = parser.parse_args()
 
-    pool = poolMan.Pool(hosts=arguments.pool_hosts)
+    pool = poolMan.Pool(
+        hosts=arguments.pool_hosts,
+        keyfile=arguments.keyfile,
+    )
 
     code.interact(
         local=dict(globals().items() + locals().items())

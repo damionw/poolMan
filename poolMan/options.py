@@ -1,4 +1,4 @@
-from .constants import DEFAULT_CLUSTER_HOSTS
+from .constants import DEFAULT_CLUSTER_HOSTS, DEFAULT_RSA_KEYFILE
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, Action
 
@@ -30,6 +30,13 @@ def register_options(option_parser=None):
         help="Cluster hosts",
         action=OverrideableListAction,
         default=DEFAULT_CLUSTER_HOSTS,
+    )
+
+    option_parser.add_argument(
+        "--keyfile",
+        dest="keyfile",
+        help="Public key store",
+        default=DEFAULT_RSA_KEYFILE,
     )
 
     return option_parser
