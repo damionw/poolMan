@@ -1,9 +1,8 @@
 #==============================================================================
 #                             Global Imports
 #==============================================================================
-from os.path import exists, dirname
 from functools import wraps
-from os import makedirs
+
 import logging
 
 #==============================================================================
@@ -14,20 +13,6 @@ LOG = logging.getLogger(__name__)
 #==============================================================================
 #                            Decorators
 #==============================================================================
-def assured_folder(function):
-    @wraps(function)
-    def wrapper(*args, **kwargs):
-        fullpath = function(*args, **kwargs)
-        folder = dirname(fullpath)
-
-        if not exists(folder):
-            LOG.info("Creating folder '{0}'".format(folder))
-            makedirs(folder)
-
-        return fullpath
-
-    return wrapper
-
 def cast(type_reference):
     """ Cast the passed in value to the specified type """
     def cast_decorator(call_reference):
@@ -38,18 +23,6 @@ def cast(type_reference):
         return cast_wrapper
 
     return cast_decorator
-
-def memoize(function_reference):
-    @wraps(function_reference)
-    def mywrapper(*args, **kwargs):
-        cache_name = "_cached_result_%s" % id((args + (None,))[0])
-
-        if not hasattr(function_reference, cache_name):
-            setattr(function_reference, cache_name, function_reference(*args, **kwargs))
-
-        return getattr(function_reference, cache_name)
-
-    return mywrapper
 
 def cached(function_reference):
     """ Allows caching of object method return values

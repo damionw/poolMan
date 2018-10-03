@@ -67,4 +67,20 @@ class Pool(object):
             def __setitem__(self, hostname, value):
                 raise KeyError("Cannot dynamically add pool hosts (yet)")
 
+            @property
+            def hostnames(self):
+                return self._pool.hostnames
+
+            @property
+            @cast(set)
+            def hosts(self):
+                for hostname in self._pool.hostnames:
+                    host = self.__getitem__(hostname)
+    
+                    if host.available:
+                        yield hostname
+
+            def keys(self):
+                return self.hostnames
+
         return _Proxy(pool=self)
