@@ -6,7 +6,7 @@ help:
 all: env setup
 
 install:
-	@pip install paramiko
+	@pip install tornado
 	@python setup.py install
 
 virtualenv: env

@@ -18,6 +18,13 @@ if exists(join(localpath, 'poolMan', '__init__.py')):
     import sys
     sys.path[:0] = [localpath]
 
+import logging
+
+#================================================================
+#                        Local Imports
+#================================================================
+from ..options import register_options as pool_options
+
 #================================================================
 #                      History Facilitation
 #================================================================
@@ -49,9 +56,9 @@ def register_options(option_parser=None):
 #================================================================
 #                               Main
 #================================================================
-def console():
-    import poolMan
-    import logging
+def console_session():
+    from .pools import Pool
+
     import code
 
     logging.basicConfig(level=logging.INFO)
@@ -61,11 +68,11 @@ def console():
         description="Pool Manager Console",
     )
 
-    poolMan.register_options(parser)
+    pool_options(parser)
     register_options(parser)
     arguments = parser.parse_args()
 
-    pool = poolMan.Pool(
+    pool = Pool(
         hostnames=arguments.pool_hosts,
         keyfile=arguments.keyfile,
     )
@@ -74,11 +81,3 @@ def console():
         local=dict(globals().items() + locals().items())
     )
 
-#================================================================
-#                      Entry Point
-#================================================================
-if __name__ == "__main__":
-    try:
-        console()
-    except (KeyboardInterrupt):
-        exit(0)
