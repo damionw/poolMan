@@ -15,6 +15,12 @@ class MulticastTransponder(object):
             socket.SOCK_DGRAM
         )
 
+        self._sock.setsockopt(
+            socket.SOL_SOCKET,
+            socket.SO_REUSEADDR,
+            1,
+        )
+
         self._sock.settimeout(3)
         self._sock.bind(('', self._port))
         self._sock.setblocking(0)
